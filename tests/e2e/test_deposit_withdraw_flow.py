@@ -15,7 +15,7 @@ def test_deposit_and_withdraw(asset, gov, fish, fish_amount, create_vault):
     assert asset.balanceOf(vault) == quarter_amount
     assert vault.totalIdle() == quarter_amount
     assert vault.totalDebt() == 0
-    assert vault.pricePerShare(sender=fish) == 10 ** asset.decimals()  # 1:1 price
+    assert vault.pricePerShare() == 10 ** asset.decimals()  # 1:1 price
 
     # set deposit limit to half_amount and max deposit to test deposit limit
     vault.set_deposit_limit(half_amount, sender=gov)
@@ -29,7 +29,7 @@ def test_deposit_and_withdraw(asset, gov, fish, fish_amount, create_vault):
     assert asset.balanceOf(vault) == half_amount
     assert vault.totalIdle() == half_amount
     assert vault.totalDebt() == 0
-    assert vault.pricePerShare(sender=fish) == 10 ** asset.decimals()  # 1:1 price
+    assert vault.pricePerShare() == 10 ** asset.decimals()  # 1:1 price
 
     # raise deposit limit to fish_amount and allow full deposit through to test deposit limit change
     vault.set_deposit_limit(fish_amount, sender=gov)
@@ -41,7 +41,7 @@ def test_deposit_and_withdraw(asset, gov, fish, fish_amount, create_vault):
     assert asset.balanceOf(vault) == amount
     assert vault.totalIdle() == amount
     assert vault.totalDebt() == 0
-    assert vault.pricePerShare(sender=fish) == 10 ** asset.decimals()  # 1:1 price
+    assert vault.pricePerShare() == 10 ** asset.decimals()  # 1:1 price
 
     vault.withdraw(half_amount, fish.address, fish.address, sender=fish)
 
@@ -49,13 +49,13 @@ def test_deposit_and_withdraw(asset, gov, fish, fish_amount, create_vault):
     assert asset.balanceOf(vault) == half_amount
     assert vault.totalIdle() == half_amount
     assert vault.totalDebt() == 0
-    assert vault.pricePerShare(sender=fish) == 10 ** asset.decimals()  # 1:1 price
+    assert vault.pricePerShare() == 10 ** asset.decimals()  # 1:1 price
 
     vault.withdraw(half_amount, fish.address, fish.address, sender=fish)
 
     checks.check_vault_empty(vault)
     assert asset.balanceOf(vault) == 0
-    assert vault.pricePerShare(sender=fish) == 10 ** asset.decimals()  # 1:1 price
+    assert vault.pricePerShare() == 10 ** asset.decimals()  # 1:1 price
 
 
 def test_delegated_deposit_and_withdraw(
